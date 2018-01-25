@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Usability/UX Laboratory Camera Control FHTW</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" href="css/libs/bootstrap.min.css">
+        <link rel="stylesheet" href="css/custom-slider.css">
+        <link rel="stylesheet" href="css/simple.css">
+
+        <script src="js/libs/jquery-3.1.1.min.js"></script>
+        <script src="js/libs/jquery-ui.min.js"></script>
+        <script src="js/libs/bootstrap.min.js"></script>
+        <script src="js/camera.js"></script>
+        <script src="js/swipe.js"></script>
+    </head>
+    <body>
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navigation">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#"><!-- INSERTED BY JAVASCRIPT --></a>
+                </div>
+                <div id="navigation" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <header>
+            <div id="preset-container" class="collapse">
+                <div id="preset-content">
+                    <ul id="preset-list" class="list-group">
+                        <li class="list-group-item" data-id="1">
+                            <span class="preset-name">Preset #1</span>
+                            <div class="pull-right">
+                                <a class="preset-options"><span class="glyphicon glyphicon-cog text-muted"></span></a>
+                            </div>
+                        </li>
+                        <li class="list-group-item" data-id="2">
+                            <span class="preset-name">Preset #2</span>
+                            <div class="pull-right">
+                                <a class="preset-options"><span class="glyphicon glyphicon-cog text-muted"></span></a>
+                            </div>
+                        </li>
+                        <li class="list-group-item" data-id="3">
+                            <span class="preset-name">Preset #3</span>
+                            <div class="pull-right">
+                                <a class="preset-options"><span class="glyphicon glyphicon-cog text-muted"></span></a>
+                            </div>
+                        </li>
+                        <li class="list-group-item" data-id="4">
+                            <span class="preset-name">Preset #4</span>
+                            <div class="pull-right">
+                                <a class="preset-options"><span class="glyphicon glyphicon-cog text-muted"></span></a>
+                            </div>
+                        </li>
+                        <li class="list-group-item" data-id="5">
+                            <span class="preset-name">Preset #5</span>
+                            <div class="pull-right">
+                                <a class="preset-options"><span class="glyphicon glyphicon-cog text-muted"></span></a>
+                            </div>
+                        </li>
+                        <li class="list-group-item" data-id="6">
+                            <span class="preset-name">Preset #6</span>
+                            <div class="pull-right">
+                                <a class="preset-options"><span class="glyphicon glyphicon-cog text-muted"></span></a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div id="preset-controls" class="row">
+                <button id="toggle-presets" class="btn col-lg-10 col-md-10 col-sm-10 col-xs-10 btn-primary" data-toggle="collapse" data-target="#preset-container">
+                    Presets <span class="glyphicon glyphicon-bookmark"></span>
+                </button>
+                <button id="new-preset"
+                        class="btn col-lg-2 col-md-2 col-sm-2 col-xs-2 btn-primary"
+                        data-toggle="modal"
+                        data-target="#new-preset-modal">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+            </div>
+        </header>
+
+        <main id="control-area"
+              class="user-select-off">
+            <div id="swipe-area">
+            </div>
+            <div class="visual-feedback"></div>
+        </main>
+
+        <!-- Dialog for adding new presets -->
+        <div id="new-preset-modal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><strong>New Preset</strong></h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Creates a new preset using the current camera rotation and zoom levels. You can find this preset in your preset list.</p>
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
+                            <input id="new-preset-name" type="text" class="form-control" placeholder="Preset Name">
+                        </div>
+                        <div id="new-preset-empty-name-alert" class="alert alert-danger">
+                            <strong>A valid name must be provided!</strong>
+                            <div class="alert-content">
+                                <ul>
+                                    <li>Not allowed to be empty or whitespaces only</li>
+                                    <li>Length cannot exceed 20 characters</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
+                        <button id="new-preset-create" type="button" class="btn btn-primary">Create</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Options dialog for presets -->
+        <div id="preset-options-modal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><strong id="preset-options-modal-title"></strong></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="preset-options-modal-content" class="row">
+                            <div class="modal-section row">
+                                <p>Use the textfield below to change the name of your preset.</p>
+                                <div class="input-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                    </span>
+                                    <input id="preset-options-modal-name" type="text" class="form-control" placeholder="Preset Name">
+                                    <span class="input-group-btn">
+                                        <button id="preset-options-modal-name-refresh" type="button" class="btn btn-default">
+                                            <span class="glyphicon glyphicon-refresh"></span>
+                                        </button>
+                                        <button id="preset-options-modal-name-ok" type="button" class="btn btn-default">
+                                            <span class="glyphicon glyphicon-ok"></span>
+                                        </button>
+                                    </span>
+                                </div>
+                                <div id="preset-options-modal-empty-name-alert" class="alert alert-danger">
+                                    <strong>A valid name must be provided!</strong>
+                                    <div class="alert-content">
+                                        <ul>
+                                            <li>Not allowed to be empty or whitespaces only</li>
+                                            <li>Length cannot exceed 20 characters</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="separator"></div>
+
+                            <div class="modal-section row">
+                                <p>Select this preset as your favorite. You will be able to access it on the quickbar.</p>
+                                <div class="input-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <span class="input-group-addon"><span id="preset-options-modal-favorite-addon" class="glyphicon glyphicon-star"></span></span>
+                                    <button id="preset-options-modal-favorite" type="button" class="btn btn-default col-lg-12 col-md-12 col-sm-12 col-xs-12">Favorite</button>
+                                </div>
+                            </div>
+
+                            <div class="separator"></div>
+
+                            <div class="modal-section row">
+                                <p>Override the configuration (rotation and zoom) with the current transformation.</p>
+                                <div class="input-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-floppy-disk"></span></span>
+                                    <button id="preset-options-modal-override" type="button" class="btn btn-default col-lg-12 col-md-12 col-sm-12 col-xs-12">Override</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="preset-options-modal-delete" type="button" class="btn btn-danger pull-left">Delete</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Confirmation dialog for deleting presets -->
+        <div id="rem-preset-modal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><strong>Delete Preset</strong></h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure that you want to delete "<strong id="rem-preset-name"></strong>"? Presets that are deleted cannot be restored!</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
+                        <button id="rem-preset-delete" type="button" class="btn btn-danger" data-dismiss="modal">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Confirmation dialog for overriding presets -->
+        <div id="sav-preset-modal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><strong>Override Preset</strong></h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure that you want to override the configuration of "<strong id="sav-preset-name"></strong>" with the currently used values?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
+                        <button id="sav-preset-override" type="button" class="btn btn-primary" data-dismiss="modal">Override</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button id="btn-zoom-out" class="btn btn-primary"><strong>-</strong></button>
+                </span>
+                <div class="form-control">
+                    <input id="zoom-slider" class="custom-slider" type="range" min="0" max="100" value="0"/>
+                </div>
+                <span class="input-group-btn">
+                    <button id="btn-zoom-in" class="btn btn-primary"><strong>+</strong></button>
+                </span>
+            </div>
+            <div class="btn-group btn-group-justified">
+                <div class="btn-group">
+                    <button id="btn-reset-zoom" type="button" class="btn btn-primary">Reset Zoom</button>
+                </div>
+                <div class="btn-group">
+                    <button id="btn-favorite-preset" type="button" class="btn btn-primary">Favorite</button>
+                </div>
+                <div class="btn-group">
+                    <button id="btn-center-camera" type="button" class="btn btn-primary">Center</button>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>

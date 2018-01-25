@@ -1,0 +1,172 @@
+/* 
+    Created on : 04.11.2017, 09:37:33
+    Author     : Daniel Kleebinder
+*/
+
+
+/********************** START OF GLOBAL ELEMENT CHANGES **********************/
+/*
+ * CSS Global Reset
+ *
+ * Set the padding and margin of all standard HTML
+ * elements to 0 to reduce browser inconsistencies.
+ */
+* {
+    font-family: arial;
+    padding: 0;
+    margin: 0;
+    text-align: justify;
+    scroll-behavior: smooth;
+}
+body {
+    position: fixed;
+    padding-top: 50px;
+    background-color: #fff;
+}
+
+
+.btn {
+    border-radius: 0;
+}
+.alert-danger {
+    padding-top: 9px;
+    padding-bottom: 9px;
+    margin: 0;
+    margin-top: 10px;
+}
+
+nav {
+    z-index: 100;
+}
+
+header {
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 200;
+}
+
+main {
+    position: fixed;
+    margin-top: 50px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 0;
+}
+
+main > #swipe-area {
+    position: absolute;
+    background-color: #fafaff;
+    border: 3px solid #f0f0f8;
+
+    top: 25%;
+    left: 30%;
+    right: 30%;
+    bottom: 35%;
+
+    width: 40%;
+    height: 40%;
+
+    border-radius: 200000px;
+    z-index: 10;
+}
+
+#preset-content {
+    position: relative;
+    overflow-y: auto;
+    max-height: 200px;
+}
+#preset-list {
+    position: relative;
+    margin: 0;
+}
+#toggle-presets {
+    height: 45px;
+}
+#preset-list > .list-group-item {
+    cursor: pointer;
+}
+#preset-controls {
+    left: 0;
+    right: 0;
+    margin: 0;
+}
+#preset-controls > button {
+    height: 43px;
+}
+#preset-options-modal-content {
+    margin: 0;
+}
+.user-select-off {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select:none;
+    -o-user-select:none;
+    user-select:none;
+}
+.alert-content {
+    margin-left: 15px;
+    margin-right: 15px;
+}
+.preset-name {}
+.preset-options {
+    font-size: 21px;
+    margin-right: 10px;
+    margin-left: 20px;
+}
+
+.modal-section {
+    margin: 0;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.separator {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px #ddd solid;
+    left: 0;
+    right: 0;
+}
+.text-gold {
+    color: #e8ba03;
+}
+
+
+.visual-feedback {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 0;
+    height: 0;
+
+    opacity: 0;
+
+    background-color: #cacacf;
+    border-radius: 100%;
+
+    z-index: 5;
+}
+
+.camera-switch {}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 100;
+}
+
+footer .btn {
+    margin: 0 !important;
+    height: 40px;
+    width: 50px;
+}
+
+footer .form-control {
+    height: 40px;
+    padding: 0;
+}
